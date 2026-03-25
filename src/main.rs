@@ -1,3 +1,5 @@
+use wordchain::config::Config;
+
 fn main() {
-    println!("Hello, world!");
+    let config = Config::from_env();
 }
