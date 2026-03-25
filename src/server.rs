@@ -2,11 +2,13 @@ use crate::model::AppState;
 use crate::routes;
 use axum::Router;
 use std::net::SocketAddr;
+use std::sync::Arc;
 use tokio::net::TcpListener;
 use tower_http::trace::TraceLayer;
 
 pub async fn run(state: AppState) {
     let addr = state.config.server_addr;
+    let state = Arc::new(state);
 
     let app = Router::new()
         .merge(routes::router())

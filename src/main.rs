@@ -1,4 +1,5 @@
 use std::sync::Arc;
+use tokio::sync::broadcast;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use wordchain::config::Config;
@@ -12,7 +13,9 @@ async fn main() {
         .init();
 
     let config = Arc::new(Config::from_env());
-    let state = AppState { config };
+    let (tx, _rx) = broadcast::channel(16);
+
+    let state = AppState { config, tx };
 
     server::run(state).await;
 }
